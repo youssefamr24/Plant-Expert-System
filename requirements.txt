@@ -1,0 +1,11 @@
+# Requirements for Plant Expert System
+# No heavy logic libraries allowed as per "from scratch" requirement
+
+# For potential table formatting of facts in the console
+tabulate==0.9.0
+
+# Optional: If you decide to use JSON for internal data structures
+simplejson==3.19.1
+
+# For testing your algorithms
+pytest==7.4.0
