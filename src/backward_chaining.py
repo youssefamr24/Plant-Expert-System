@@ -10,15 +10,15 @@ def evaluate_condition(condition, facts):
 
     if match:
         var, op, val = match.groups()
-        var = int(val)
+        val = int(val)
 
         if var in facts:
             facts_val = facts[var]
-            if op == '==': return facts_val == var
-            if op == '>': return facts_val > var
-            if op == '<': return facts_val < var
-            if op == '>=': return facts_val >= var
-            if op == '<=': return facts_val <= var
+            if op == '==': return facts_val == val
+            if op == '>': return facts_val > val
+            if op == '<': return facts_val < val
+            if op == '>=': return facts_val >= val
+            if op == '<=': return facts_val <= val
         
         return False
         
@@ -54,7 +54,7 @@ def backward_chaining(goal, facts, rules, visited=None):
 
             conditions = rule['if']
             if rule['logic'] == 'AND':
-                if all(backward_chaining(cond, facts, rules, visited) for cond in conditions):
+                if all(backward_chaining(cond, facts, rules, visited.copy()) for cond in conditions):
                     # Successfully proved the goal, add it to facts
                     facts[rule['then'][0]] = rule['then'][1]
                     print(f"Fact Added: {goal} | Current Facts: {facts}")
@@ -62,7 +62,7 @@ def backward_chaining(goal, facts, rules, visited=None):
             
             elif rule['logic'] == 'OR':
                 # At least one condition must be true
-                if any(backward_chaining(cond, facts, rules, visited) for cond in conditions):
+                if any(backward_chaining(cond, facts, rules, visited.copy()) for cond in conditions):
                     facts[rule['then'][0]] = rule['then'][1]
                     print(f"Fact Added: {goal} | Current Facts: {facts}")
                     return True
